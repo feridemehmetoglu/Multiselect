@@ -1,0 +1,37 @@
+<%= form_for(@author) do |f| %>
+  <% if @author.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@author.errors.count, "error") %> prohibited this author from being saved:</h2>
+
+      <ul>
+      <% @author.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name %><br>
+    <%= f.text_field :name %>
+  </div>
+  <%= fields_for(@author_book) do |ab| %>
+   <div class="field"> 
+    <%= ab.label "All Books" %><br/>
+    <label>collection_select</label>
+    <%= collection_select :books, :id, @all_books , :id, :name, {} , { multiple: true} %><br/>
+    <label>collection_select_boxes</label>
+    <%= collection_check_boxes :books, :id, @all_books , :id, :name, {} , { multiple: true} %>
+    <!-- formatı 
+         collection_select(object, method, collection, value_method, text_method, options = {}, html_options = {}) 
+         http://apidock.com/rails/ActionView/Helpers/FormOptionsHelper/collection_select
+  for example  collection_select(:post, :author_id, Author.all, :id, :name_with_initial, prompt: true)
+        collection_check_boxes(object, method, collection, value_method, text_method, options = {}, html_options = {}, &block)
+
+ -->
+    </div>
+    <% end %>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
